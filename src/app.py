@@ -1,4 +1,4 @@
-from flask import Flask, render_template # ~/$ pip install flask
+from flask import Flask, render_template, send_from_directory  # ~/$ pip install flask
 from flask_socketio import SocketIO, send, emit #~/$ pip install flask-socketio
 from datetime import timedelta
 import json
@@ -36,10 +36,10 @@ class LData:
 		self.diffPress = diffPress
 		self.spinner = spinner
 
-count = 0
-def sendsimdata( count ):
+def sendsimdata( ):
 	f = open("pl-data-short.txt", "r")
 	f.readline()
+	count = 0
 	for line in f:
 		l = str(line.encode('utf-8').strip()).split("'")[1]
 		d = LData( )
@@ -57,7 +57,7 @@ def sendsimdata( count ):
 		djson= json.dumps(d.__dict__)
 		print(djson)
 		emit('newdata', djson )
-		time.sleep(0.2)
+		time.sleep(0.05)
 		count += 1
 	f.close()
 	print(f'\n[*** SENT DATA ***]\t {count} samples @ 20 / second...\n')
@@ -65,17 +65,23 @@ def sendsimdata( count ):
 @sio.on('getsimdata')
 def handle_getsimdata( msg ):
 	print(f'\n[*** DATA REQUESTED ***]\n{ msg }\n')
-	x = threading.Thread(target=sendsimdata( count ))
+	x = threading.Thread(target=sendsimdata( ))
 	x.start()
 	x.join()
 
+# route to svelte page
 @app.route("/")
-def home():
-	return render_template("home.html", title="Home")
+def base():
+	return send_from_directory('client/public', 'index.html')
+
+# route to static files for svelte page (compiled js, css, media...)
+@app.route('/<path:path>')
+def home(path):
+	return send_from_directory('client/public', path)
 
 @app.route("/data")
 def datago( ):
-	f = open("pl-data.txt", "r")
+	f = open("pl-data-short.txt", "r")
 	f.readline()
 	l = str(f.readline().encode('utf-8').strip()).split("'")[1]
 	data = LData(
@@ -96,11 +102,17 @@ def datago( ):
 	return render_template("data.html", data=data, title='Data')
 
 if __name__ == "__main__":
-	# app.run(debug=True)
 	sio.run(app)
 
 ### Go Buttons ##
-# ~/$ sourece bin/activate
-# ~/$ cd src
-# ~/src/$ export FLASK_APP=app.py
-# ~/src/$ flask run
+# ~/ $ sourece bin/activate
+# ~/ $ cd src
+# ~/src $ export FLASK_APP=app.py
+# ~/src $ flask run
+
+# 31-Jan-2021 - Added svelte
+# https://cabreraalex.medium.com/svelte-js-flask-combining-svelte-with-a-simple-backend-server-d1bc46190ab9
+# ~/src $ npx degit svelte/template client
+# ~/src $ cd client
+# ~/src/client $ npm install
+# ~/src/client $ npm run build  (when changes are made to the svelte files)
