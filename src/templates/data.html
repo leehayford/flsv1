@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+	<div id=app-data>behold, some data...</div>
+	<table>
+		<tr>
+			<th>depth</th>
+			<th>tension</th>
+			<th>speed</th>
+			<th>ccl</th>
+			<th>gr</th>
+			<th>temp</th>
+			<th>press</th>
+			<th>flowUp</th>
+			<th>flowDn</th>
+			<th>diffPress</th>
+			<th>spinner</th>
+		</tr>
+	</table>
+	<table id="datatable">
+	</table>
+
+	<script type="text/javascript" charset="utf-8">
+	    var socket = io();
+	    socket.on('connect', function() {
+			console.log('\n[*** CONNECTED ***]\nje suis connecte a tu...\n');
+	        socket.emit('getsimdata',  'I am a client.  I need data.\n' );
+	    });
+		var table = document.getElementById('datatable');
+		socket.on('newdata', function( djson ) {
+			d = JSON.parse(djson);
+			console.log('\n[*** RECEIVED NEW DATA ***]\n:', d["depth"]);
+			var row = table.insertRow(0);
+			var c0 = row.insertCell(0); c0.innerHTML = d["depth"];
+			var c1 = row.insertCell(1); c1.innerHTML = d["tension"];
+			var c2 = row.insertCell(2); c2.innerHTML = d["speed"];
+			var c3 = row.insertCell(3); c3.innerHTML = d["ccl"];
+			var c4 = row.insertCell(4); c4.innerHTML = d["gr"];
+			var c5 = row.insertCell(5); c5.innerHTML = d["temp"];
+			var c6 = row.insertCell(6); c6.innerHTML = d["press"];
+			var c7 = row.insertCell(7); c7.innerHTML = d["flowUp"];
+			var c8 = row.insertCell(8); c8.innerHTML = d["flowDn"];
+			var c9 = row.insertCell(9); c9.innerHTML = d["diffPress"];
+			var c10 = row.insertCell(10); c10.innerHTML = d["spinner"];
+		} );
+	</script>
+
+{% endblock content %}

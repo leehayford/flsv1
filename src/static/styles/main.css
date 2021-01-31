@@ -1,0 +1,28 @@
+* {
+margin: 0px;
+padding: 0px;
+box-sizing: border-box;
+font-family: Roboto;
+--red: rgb(180, 0, 0);
+--green: rgb(0, 180, 0);
+--blue: rgb(0, 0, 180);
+--shite: rgb(180, 180, 0);
+ }
+#base-header {
+color: var(--red);
+}
+#base-footer {
+color: var(--green);
+}
+#app-home {
+color: var(--blue);
+}
+#app-data {
+color: var(--shite);
+}
+th {
+    width: 23.79rem;
+}
+td {
+    width: 23.79rem;
+}
