@@ -18,3 +18,7 @@ const app = new App({
 });
 
 export default app;
+
+// 31-Jan-2021:
+// ~/src/client $ npm install svelte-speedometer
+// ADded svelte speedometer

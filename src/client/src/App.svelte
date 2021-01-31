@@ -1,8 +1,6 @@
 <script>
-	import Speedometer from "svelte-speedometer";
-    // const io = require("socket.io");
-	// import io from "socket.io";
-	
+	import Speedometer from "svelte-speedometer";  
+
 	export let depth;
 	export let tension;
 	export let speed;
