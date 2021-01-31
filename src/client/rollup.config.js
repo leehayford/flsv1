@@ -4,6 +4,8 @@ import resolve from '@rollup/plugin-node-resolve';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import css from 'rollup-plugin-css-only';
+//import json from '@rollup/plugin-json'; /// me
+// import npm from 'rollup-plugin-npm'; not found /// me
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -56,8 +58,12 @@ export default {
 			browser: true,
 			dedupe: ['svelte']
 		}),
-		commonjs(),
-
+		commonjs(
+			// {  /// me
+			// 	include: 'node_modules/**' /// me
+			// } /// me
+		),
+		// json(), /// me
 		// In dev mode, call `npm run start` once
 		// the bundle has been generated
 		!production && serve(),

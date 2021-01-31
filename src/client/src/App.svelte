@@ -1,5 +1,8 @@
 <script>
-	import Speedometer from"svelte-speedometer"
+	import Speedometer from "svelte-speedometer";
+    // const io = require("socket.io");
+	// import io from "socket.io";
+	
 	export let depth;
 	export let tension;
 	export let speed;
@@ -11,7 +14,7 @@
 	export let flowDn;
 	export let spinner;
 
-	var socket = io();
+	var socket = io('http://localhost:5000');
 	socket.on('connect', function() {
 		console.log('\n[*** CONNECTED ***]\nconnected - svelte')
 		socket.emit('getsimdata',  'svelte client ready for data....\n' );
@@ -40,7 +43,7 @@
 	width={250}
 	height={150}
 	ringWidth={23}
-	maxValue={5000}
+	maxValue={10000}
 	value={depth}
 	needleColor="lightgreen"
 	startColor="yellow"
@@ -53,7 +56,7 @@
 	width={250}
 	height={150}
 	ringWidth={23}
-	maxValue={1000}
+	maxValue={700}
 	value={tension}
 	needleColor="lightgreen"
 	startColor="yellow"
@@ -66,7 +69,7 @@
 	width={250}
 	height={150}
 	ringWidth={23}
-	maxValue={30}
+	maxValue={20}
 	value={speed}
 	needleColor="lightgreen"
 	startColor="yellow"
@@ -99,7 +102,7 @@
 	}
 
 	p {
-		margin-top: 1rem;
+		margin-top: 3rem;
 	}
 	@media (min-width: 640px) {
 		main {

@@ -1,4 +1,3 @@
-// import Speedometer from"svelte-speedometer"
 import App from './App.svelte';
 
 const app = new App({
