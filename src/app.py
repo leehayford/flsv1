@@ -6,8 +6,8 @@ import time
 import threading
 
 app = Flask(__name__)
-app.config["SEND_FILE_MAX_AGE_DEFAULT"] = timedelta(seconds=1) # DEBUG ONLY - avoid cached shite confusion during development
-app.config["SECRET_KEY"] = 'secrets!'
+#app.config["SEND_FILE_MAX_AGE_DEFAULT"] = timedelta(seconds=1) # DEBUG ONLY - avoid cached shite confusion during development
+# app.config["SECRET_KEY"] = 'secrets!'
 sio = SocketIO(app)
 
 class LData:
@@ -37,7 +37,7 @@ class LData:
 		self.spinner = spinner
 
 def sendsimdata( ):
-	f = open("pl-data-short.txt", "r")
+	f = open("pl-data-long.txt", "r")
 	f.readline()
 	count = 0
 	for line in f:
@@ -55,7 +55,7 @@ def sendsimdata( ):
 		d.diffPress = float(l.split()[9])
 		d.spinner =	float(l.split()[10])
 		djson= json.dumps(d.__dict__)
-		print(djson)
+		# print(djson)
 		emit('newdata', djson )
 		time.sleep(0.05)
 		count += 1
@@ -105,7 +105,7 @@ if __name__ == "__main__":
 	sio.run(app)
 
 ### Go Buttons ##
-# ~/ $ sourece bin/activate
+# ~/ $ source bin/activate
 # ~/ $ cd src
 # ~/src $ export FLASK_APP=app.py
 # ~/src $ flask run
@@ -116,3 +116,7 @@ if __name__ == "__main__":
 # ~/src $ cd client
 # ~/src/client $ npm install
 # ~/src/client $ npm run build  (when changes are made to the svelte files)
+
+# 31-Jan-2021 - Added svelte-speedometer
+# https://www.npmjs.com/package/svelte-speedometer
+# ~/src/client $ npm install svelte-speedometer

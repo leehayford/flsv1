@@ -1,5 +1,5 @@
 <script>
-	// export let name;
+	import Speedometer from"svelte-speedometer"
 	export let depth;
 	export let tension;
 	export let speed;
@@ -34,9 +34,46 @@
 
 <main>
 	<h1>Sup?</h1>
+
 	<p>depth: {depth}</p>
+	<Speedometer
+	width={250}
+	height={150}
+	ringWidth={23}
+	maxValue={5000}
+	value={depth}
+	needleColor="lightgreen"
+	startColor="yellow"
+	segments={5}
+	endColor="indigo"
+	/>
+
 	<p>tension: {tension}</p>
+	<Speedometer
+	width={250}
+	height={150}
+	ringWidth={23}
+	maxValue={1000}
+	value={tension}
+	needleColor="lightgreen"
+	startColor="yellow"
+	segments={5}
+	endColor="indigo"
+	/>
+
 	<p>speed: {speed}</p>
+	<Speedometer
+	width={250}
+	height={150}
+	ringWidth={23}
+	maxValue={30}
+	value={speed}
+	needleColor="lightgreen"
+	startColor="yellow"
+	segments={5}
+	endColor="indigo"
+	/>
+
 	<p>ccl: {ccl}</p>
 	<p>gr: {gr}</p>
 	<p>temp: {temp}</p>
@@ -48,8 +85,8 @@
 
 <style>
 	main {
-		text-align: center;
-		padding: 1em;
+		text-align: left;
+		padding: 0.5em;
 		max-width: 240px;
 		margin: 0 auto;
 	}
@@ -61,6 +98,9 @@
 		font-weight: 100;
 	}
 
+	p {
+		margin-top: 1rem;
+	}
 	@media (min-width: 640px) {
 		main {
 			max-width: none;
